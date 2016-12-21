@@ -57,7 +57,8 @@ define([
 
 			var i, numTouches, touch;
 			for (i = 0, numTouches = 0; (touch = evt.touches[i]); ++i) {
-				if (node.contains(touch.target)) {
+                var target = (touch.target.nodeType === 3) ? touch.target.parentNode : touch.target;
+				if (node.contains(target)) {
 					++numTouches;
 				}
 			}

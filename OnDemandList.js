@@ -174,7 +174,7 @@ define([
 								delete self.noDataNode;
 							}
 							self.noDataNode = noDataNode = put('div.dgrid-no-data');
-							parentNode.insertBefore(noDataNode, self._getFirstRowSibling(parentNode));
+							parentNode && parentNode.insertBefore(noDataNode, self._getFirstRowSibling(parentNode));
 							noDataNode.innerHTML = self.noDataMessage;
 						}
 						var height = 0;

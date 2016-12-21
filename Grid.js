@@ -534,12 +534,12 @@ define([
 			this.configStructure();
 			this.renderHeader();
 
-			this.refresh();
-			// re-render last collection if present
-			this._lastCollection && this.renderArray(this._lastCollection);
-
 			// After re-rendering the header, re-apply the sort arrow if needed.
 			if (this._started) {
+                this.refresh();
+                // re-render last collection if present
+                this._lastCollection && this.renderArray(this._lastCollection);
+
 				if (this.sort.length) {
 					this.updateSortArrow(this.sort);
 				} else {

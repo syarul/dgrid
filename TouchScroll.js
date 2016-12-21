@@ -366,7 +366,7 @@ define([
 			// (since it auto-removed itself anyway), then let
 			// resetEffects do the rest of its usual job.
 			delete curr.transitionHandler;
-			curr.resetEffects();
+			curr.resetEffects && curr.resetEffects();
 			delete current[id];
 		}
 

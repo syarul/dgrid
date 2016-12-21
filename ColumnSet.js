@@ -73,6 +73,10 @@ define([
 			node = node.parentNode;
 		}
 		while (node && !query.matches(node, '.dgrid-column-set[' + colsetidAttr + ']', root)) {
+            if ( node == root )
+            {
+                return null;
+            }
 			node = node.parentNode;
 		}
 		return node;

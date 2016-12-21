@@ -129,7 +129,7 @@ define([
 		// selectionEvents: String|Function
 		//		Event (or comma-delimited events, or extension event) to listen on
 		//		to trigger select logic.
-		selectionEvents: downType + ',' + upType + ',dgrid-cellfocusin',
+		selectionEvents: downType + ',' + upType + ',dblclick,dgrid-cellfocusin',
 
 		// selectionTouchEvents: String|Function
 		//		Event (or comma-delimited events, or extension event) to listen on
@@ -315,6 +315,35 @@ define([
 
 			this.select(target, null, null);
 		},
+        
+        _blockSelectionHandler: function(event, target)
+        {
+            if ( event.type === "dblclick" )
+            {
+                if (this._secondLastSelected)
+                {
+                    this.select(this._secondLastSelected, target);
+                    this._lastSelected = this.row(target);
+                }
+            }
+            else
+            {
+                this._toggleSelectionHandler(event, target);
+                if ( this.isSelected(target) )
+                {
+                    this._secondLastSelected = this._lastSelected;
+                    this._lastSelected = this.row(target);
+                }
+                else if (target === this._secondLastSelected)
+                {
+                    this._secondLastSelected = null;
+                }
+                else if (target === this._lastSelected)
+                {
+                    this._lastSelected = null;
+                }
+            }
+        },
 
 		_initSelectionEvents: function () {
 			// summary:
@@ -337,6 +366,11 @@ define([
 					grid._handleSelect(evt, this);
 					grid._ignoreMouseSelect = this;
 				});
+                on(contentNode, touchUtil.selector(selector, touchUtil.dbltap), function(evt){
+                    evt.type = "dblclick";
+                    grid._handleSelect(evt, this);
+                    grid._ignoreMouseSelect = this;
+                });
 				on(contentNode, on.selector(selector, this.selectionEvents), function (event) {
 					if (grid._ignoreMouseSelect !== this) {
 						grid._handleSelect(event, this);
